@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '/Widgets/new_note.dart';
-import '/helper/authenticate.dart';
 import '/constrains/themes.dart';
 import '/Widgets/cusAppBar.dart';
 
@@ -65,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: GridView.builder(
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
-                        padding: const EdgeInsets.all(60),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, childAspectRatio: 1),
@@ -81,9 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 duration: const Duration(milliseconds: 900),
                                 curve: Curves.fastLinearToSlowEaseIn,
                                 child: FadeInAnimation(
-                                  child: Dismissible(
-                                    key: UniqueKey(),
-                                    child: HomeGrid(data: data,)
+                                  child: HomeGrid(
+                                    data: data,
                                   ),
                                 )
                                 // Container(
@@ -108,9 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //       ),
                                 //     ],
                                 //   ),
-                                  // margin: EdgeInsets.only(
-                                  //   bottom: _w / 30,
-                                  // ),
+                                // margin: EdgeInsets.only(
+                                //   bottom: _w / 30,
+                                // ),
                                 //   decoration: const BoxDecoration(
                                 //     color: kLightBlackColor,
                                 //     borderRadius:
