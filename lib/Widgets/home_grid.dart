@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '/constrains/themes.dart';
-import 'edit_note.dart';
 
 class HomeGrid extends StatelessWidget {
-  const HomeGrid({Key? key, required this.data}) : super(key: key);
+  const HomeGrid({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
 
   final Map<String, dynamic>? data;
 
@@ -27,14 +30,14 @@ class HomeGrid extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  data!['title'],
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(
-                      color: kWhiteColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
+               Text(
+                    data!['title'],
+                    textAlign: TextAlign.right,
+                    style: const TextStyle(
+                        color: kWhiteColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
                 const CircleAvatar(
                   radius: 14,
                   backgroundColor: Colors.black38,

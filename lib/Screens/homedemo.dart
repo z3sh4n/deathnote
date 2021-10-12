@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '/Widgets/new_note.dart';
+import 'new_note_screen.dart';
 import '/helper/authenticate.dart';
 import '/constrains/themes.dart';
 

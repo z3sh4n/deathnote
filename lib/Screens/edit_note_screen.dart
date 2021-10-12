@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'bottom_fields.dart';
-import 'sheet_button.dart';
+import '../Widgets/bottom_fields.dart';
+import '../Widgets/sheet_button.dart';
 import '/constrains/themes.dart';
 
 // ignore: must_be_immutable
@@ -18,8 +18,6 @@ class EditNote extends StatefulWidget {
 }
 
 class _EditNoteState extends State<EditNote> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   final CollectionReference ref =
       FirebaseFirestore.instance.collection('users');
 
@@ -44,6 +42,18 @@ class _EditNoteState extends State<EditNote> {
           'Edit Note',
           style: TextStyle(color: kBlackColor),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                widget.docToEdit!.reference
+                    .delete()
+                    .whenComplete(() => Navigator.of(context).pop());
+              },
+              icon: Icon(
+                Icons.delete,
+                color: Colors.red[300],
+              ))
+        ],
         centerTitle: true,
         backgroundColor: kWhiteColor,
       ),
@@ -57,9 +67,8 @@ class _EditNoteState extends State<EditNote> {
             children: [
               const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: field(size, widget.docToEdit!['title'], _title, 1),
-              ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: field(size, widget.docToEdit!['title'], _title, 1)),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
@@ -89,13 +98,17 @@ class _EditNoteState extends State<EditNote> {
                     () {
                       if (_title.text.isNotEmpty &&
                           _discription.text.isNotEmpty) {
-                        ref
-                            .doc(_auth.currentUser!.uid)
-                            .collection('notes')
-                            .add({
+                        widget.docToEdit!.reference.update({
                           'title': _title.text,
                           'discription': _discription.text,
                         }).whenComplete(() => Navigator.of(context).pop());
+                        // ref
+                        //     .doc(_auth.currentUser!.uid)
+                        //     .collection('notes')
+                        //     .add({
+                        //   'title': _title.text,
+                        //   'discription': _discription.text,
+                        // }).whenComplete(() => Navigator.of(context).pop());
                       } else {
                         return null;
                       }

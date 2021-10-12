@@ -1,12 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deathnote/Widgets/edit_note.dart';
+import 'package:deathnote/Screens/edit_note_screen.dart';
 import 'package:deathnote/Widgets/home_grid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import '/Widgets/new_note.dart';
+import 'new_note_screen.dart';
 import '/constrains/themes.dart';
 import '/Widgets/cusAppBar.dart';
 
@@ -95,8 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         closedColor: kBlackColor,
                                         transitionDuration:
                                             const Duration(milliseconds: 700),
-                                        closedBuilder: (context, _) =>
-                                            HomeGrid(data: data),
+                                        closedBuilder: (context, _) => HomeGrid(
+                                              data: data,
+                                            ),
                                         openBuilder: (ctx, _) => EditNote(
                                               docToEdit: snapshot.data!.docs[i],
                                               dataa: data,
