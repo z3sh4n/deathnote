@@ -8,8 +8,10 @@ import '/constrains/themes.dart';
 
 // ignore: must_be_immutable
 class EditNote extends StatefulWidget {
-  DocumentSnapshot docToEdit;
-  EditNote({Key? key, required this.docToEdit}) : super(key: key);
+  DocumentSnapshot? docToEdit;
+  Map<String, dynamic>? dataa;
+
+  EditNote({Key? key, this.docToEdit, this.dataa}) : super(key: key);
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -21,42 +23,62 @@ class _EditNoteState extends State<EditNote> {
   final CollectionReference ref =
       FirebaseFirestore.instance.collection('users');
 
-  final TextEditingController _title = TextEditingController();
+  TextEditingController _title = TextEditingController();
+  TextEditingController _discription = TextEditingController();
 
-  final TextEditingController _discription = TextEditingController();
+  @override
+  void initState() {
+    _title = TextEditingController(text: widget.docToEdit!['title']);
+    _discription =
+        TextEditingController(text: widget.docToEdit!['discription']);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: SizedBox(
-        height: 400,
-        width: double.infinity,
-        child: Padding(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text(
+          'Edit Note',
+          style: TextStyle(color: kBlackColor),
+        ),
+        centerTitle: true,
+        backgroundColor: kWhiteColor,
+      ),
+      body: Stack(children: [
+        Container(color: kWhiteColor),
+        const Divider(),
+        Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: field(size, widget.docToEdit['title'],
-                    _title, 1, false),
+                child: field(size, widget.docToEdit!['title'], _title, 1),
               ),
-              Expanded(
-                  child: field(size, widget.docToEdit['discription'],
-                      _discription, null, true)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 100,
+                  child: field(
+                      size, widget.docToEdit!['discription'], _discription, 3),
+                ),
+              ),
               const SizedBox(
                 height: 5,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  button('alarm', Icons.add_alarm_outlined, kLightBlackColor,
-                      () {})
-                ],
+              Container(
+                child: const Text('TODo Make bool'),
+                color: kBlackColor,
+                height: 50,
+                width: double.infinity,
               ),
+              button(
+                  'alarm', Icons.add_alarm_outlined, kLightBlackColor, () {}),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -80,11 +102,11 @@ class _EditNoteState extends State<EditNote> {
                     },
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }

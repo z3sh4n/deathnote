@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/constrains/themes.dart';
+import 'edit_note.dart';
 
 class HomeGrid extends StatelessWidget {
   const HomeGrid({Key? key, required this.data}) : super(key: key);
@@ -17,7 +18,7 @@ class HomeGrid extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

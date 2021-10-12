@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deathnote/Widgets/edit_note.dart';
 import 'package:deathnote/Widgets/home_grid.dart';
@@ -79,10 +80,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                 duration: const Duration(milliseconds: 900),
                                 curve: Curves.fastLinearToSlowEaseIn,
                                 child: FadeInAnimation(
-                                  child: HomeGrid(
-                                    data: data,
-                                  ),
-                                )
+                                    child: OpenContainer(
+                                        openColor: kLightBlackColor,
+                                        middleColor: kLightBlackColor,
+                                        closedShape:
+                                            const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30)),
+                                        ),
+                                        openShape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30)),
+                                        ),
+                                        closedColor: kBlackColor,
+                                        transitionDuration:
+                                            const Duration(milliseconds: 700),
+                                        closedBuilder: (context, _) =>
+                                            HomeGrid(data: data),
+                                        openBuilder: (ctx, _) => EditNote(
+                                              docToEdit: snapshot.data!.docs[i],
+                                              dataa: data,
+                                            ))
+                                    //  HomeGrid(
+                                    //   data: data,
+                                    // ),
+                                    )
                                 // Container(
                                 //   child: Column(
                                 //     mainAxisAlignment:
@@ -123,16 +145,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          elevation: 00,
-          onPressed: () => _startNote(context, NewNote()),
-          backgroundColor: kWhiteColor,
-          child: const Icon(
-            Icons.add,
-            size: 40,
-            color: kBlackColor,
-          ),
-        ));
+        floatingActionButton: OpenContainer(
+            openColor: kLightBlackColor,
+            middleColor: kLightBlackColor,
+            closedShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
+            openShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100)),
+            closedColor: kWhiteColor,
+            transitionDuration: const Duration(milliseconds: 700),
+            closedBuilder: (context, _) => const Icon(
+                  Icons.add,
+                  size: 50,
+                ),
+            openBuilder: (ctx, _) => NewNote()));
   }
 
   void _startNote(BuildContext ctx, Widget w) {
