@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:deathnote/Widgets/new_note.dart';
 import 'package:deathnote/Widgets/type_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Widgets/bottom_fields.dart';
 import '../Widgets/sheet_button.dart';
@@ -49,7 +50,18 @@ class _EditNoteState extends State<EditNote> {
               onPressed: () {
                 widget.docToEdit!.reference
                     .delete()
-                    .whenComplete(() => Navigator.of(context).pop());
+                    .whenComplete(() => Navigator.of(context).pop())
+                    .whenComplete(
+                      () => Get.snackbar(
+                        'Deleted successfully',
+                        '',
+                        icon: Icon(Icons.delete, color: Colors.red[300]),
+                        backgroundColor: kLightBlackColor,
+                        animationDuration: const Duration(milliseconds: 600),
+                        colorText: kWhiteColor,
+                        snackPosition: SnackPosition.BOTTOM,
+                      ),
+                    );
               },
               icon: Icon(
                 Icons.delete,
@@ -123,10 +135,24 @@ class _EditNoteState extends State<EditNote> {
                   () {
                     if (_title.text.isNotEmpty &&
                         _discription.text.isNotEmpty) {
-                      widget.docToEdit!.reference.update({
-                        'title': _title.text,
-                        'discription': _discription.text,
-                      }).whenComplete(() => Navigator.of(context).pop());
+                      widget.docToEdit!.reference
+                          .update({
+                            'title': _title.text,
+                            'discription': _discription.text,
+                          })
+                          .whenComplete(() => Navigator.of(context).pop())
+                          .whenComplete(
+                            () => Get.snackbar(
+                              'Edited successfully',
+                              '',
+                              icon: const Icon(Icons.edit, color: kWhiteColor),
+                              backgroundColor: kLightBlackColor,
+                              animationDuration:
+                                  const Duration(milliseconds: 600),
+                              colorText: kWhiteColor,
+                              snackPosition: SnackPosition.BOTTOM,
+                            ),
+                          );
                     } else {
                       return null;
                     }

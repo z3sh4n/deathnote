@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 import '/Screens/home_screen.dart';
 import '/constrains/themes.dart';
@@ -19,8 +20,7 @@ class AuthScreen extends StatelessWidget {
       onLogin: handleLogin,
       onRecoverPassword: _recoverPassword,
       onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Get.offAll(const HomeScreen());
       },
       theme: LoginTheme(
           pageColorDark: kBlackColor,
