@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '/Screens/home_screen.dart';
 import '/constrains/themes.dart';
-import 'homedemo.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -21,7 +20,7 @@ class AuthScreen extends StatelessWidget {
       onRecoverPassword: _recoverPassword,
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const Homereen()));
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
       },
       theme: LoginTheme(
           pageColorDark: kBlackColor,

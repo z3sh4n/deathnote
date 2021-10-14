@@ -2,9 +2,10 @@
 
  import 'package:flutter/material.dart';
 
-Widget button(String title, IconData icon, Color co, Function() op) {
+Widget button(String title, IconData icon, Color co, Function() op,) {
     return ElevatedButton.icon(
         style: ButtonStyle(
+          fixedSize: MaterialStateProperty.all( const Size.fromWidth(500)),
             shape: MaterialStateProperty.all(
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(

@@ -30,18 +30,25 @@ class HomeGrid extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-               Text(
+                Container(
+                  alignment: Alignment.centerLeft,
+                  constraints:
+                      const BoxConstraints(maxWidth: 100, maxHeight: 25),
+                  child: Text(
                     data!['title'],
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                         color: kWhiteColor,
+                        overflow: TextOverflow.fade,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
+                ),
                 const CircleAvatar(
                   radius: 14,
                   backgroundColor: Colors.black38,
                   child: Icon(
+                    // data!['personal'] ? Icons.ac_unit :
                     Icons.work,
                     size: 14,
                     color: Colors.white54,

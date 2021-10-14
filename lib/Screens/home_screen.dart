@@ -93,6 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Radius.circular(30)),
                                         ),
                                         closedColor: kBlackColor,
+                                        closedElevation: 0,
+                                        openElevation: 0,
                                         transitionDuration:
                                             const Duration(milliseconds: 700),
                                         closedBuilder: (context, _) => HomeGrid(

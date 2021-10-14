@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:deathnote/Screens/new_note_screen.dart';
+import 'package:deathnote/Widgets/type_chip.dart';
 import 'package:flutter/material.dart';
 
 import '../Widgets/bottom_fields.dart';
@@ -23,6 +24,7 @@ class _EditNoteState extends State<EditNote> {
 
   TextEditingController _title = TextEditingController();
   TextEditingController _discription = TextEditingController();
+  String type = '';
 
   @override
   void initState() {
@@ -40,7 +42,7 @@ class _EditNoteState extends State<EditNote> {
         elevation: 0,
         title: const Text(
           'Edit Note',
-          style: TextStyle(color: kBlackColor),
+          style: TextStyle(color: kWhiteColor),
         ),
         actions: [
           IconButton(
@@ -55,11 +57,10 @@ class _EditNoteState extends State<EditNote> {
               ))
         ],
         centerTitle: true,
-        backgroundColor: kWhiteColor,
+        backgroundColor: kBlackColor,
       ),
       body: Stack(children: [
-        Container(color: kWhiteColor),
-        const Divider(),
+        Container(color: kBlackColor),
         Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -69,6 +70,25 @@ class _EditNoteState extends State<EditNote> {
               Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: field(size, widget.docToEdit!['title'], _title, 1)),
+                  const hintx(
+                tx: 'Enter the Type of note here',
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    TypeChip(
+                      tx: 'personal',
+                      type: type,
+                    ),
+                    const SizedBox(width: 10),
+                    TypeChip(
+                      tx: 'Work',
+                      type: type,
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
@@ -80,18 +100,12 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(
                 height: 5,
               ),
-              Container(
-                child: const Text('TODo Make bool'),
-                color: kBlackColor,
-                height: 50,
-                width: double.infinity,
-              ),
+              
               button(
                   'alarm', Icons.add_alarm_outlined, kLightBlackColor, () {}),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  button(
+              Expanded(
+                child: Center(
+                  child: button(
                     'Save',
                     Icons.data_saver_on_sharp,
                     kBlackColor,
@@ -102,19 +116,12 @@ class _EditNoteState extends State<EditNote> {
                           'title': _title.text,
                           'discription': _discription.text,
                         }).whenComplete(() => Navigator.of(context).pop());
-                        // ref
-                        //     .doc(_auth.currentUser!.uid)
-                        //     .collection('notes')
-                        //     .add({
-                        //   'title': _title.text,
-                        //   'discription': _discription.text,
-                        // }).whenComplete(() => Navigator.of(context).pop());
                       } else {
                         return null;
                       }
                     },
                   ),
-                ],
+                ),
               ),
             ],
           ),
