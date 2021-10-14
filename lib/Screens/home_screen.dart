@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'new_note_screen.dart';
+import '../Widgets/new_note.dart';
 import '/constrains/themes.dart';
 import '/Widgets/cusAppBar.dart';
 
@@ -148,25 +148,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ],
         ),
-        floatingActionButton: OpenContainer(
-            openColor: kLightBlackColor,
-            middleColor: kLightBlackColor,
-            closedShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
-            openShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100)),
-            closedColor: kWhiteColor,
-            transitionDuration: const Duration(milliseconds: 700),
-            closedBuilder: (context, _) => const Icon(
-                  Icons.add,
-                  size: 50,
-                ),
-            openBuilder: (ctx, _) => NewNote()));
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _startNote(context, const NewNote()),
+          child: const Icon(
+            Icons.add,
+            color: kWhiteColor,
+            size: 50,
+          ),
+        ));
   }
 
   void _startNote(BuildContext ctx, Widget w) {
     showModalBottomSheet(
-        backgroundColor: kWhiteColor,
+        backgroundColor: kBlackColor,
         context: ctx,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

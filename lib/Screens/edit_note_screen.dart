@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deathnote/Screens/new_note_screen.dart';
+import 'package:deathnote/Widgets/new_note.dart';
 import 'package:deathnote/Widgets/type_chip.dart';
 import 'package:flutter/material.dart';
 
@@ -70,7 +70,7 @@ class _EditNoteState extends State<EditNote> {
               Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: field(size, widget.docToEdit!['title'], _title, 1)),
-                  const hintx(
+              const hintx(
                 tx: 'Enter the Type of note here',
               ),
               Padding(
@@ -100,27 +100,37 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(
                 height: 5,
               ),
-              
-              button(
-                  'alarm', Icons.add_alarm_outlined, kLightBlackColor, () {}),
-              Expanded(
-                child: Center(
-                  child: button(
-                    'Save',
-                    Icons.data_saver_on_sharp,
-                    kBlackColor,
-                    () {
-                      if (_title.text.isNotEmpty &&
-                          _discription.text.isNotEmpty) {
-                        widget.docToEdit!.reference.update({
-                          'title': _title.text,
-                          'discription': _discription.text,
-                        }).whenComplete(() => Navigator.of(context).pop());
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
+              Chip(
+                backgroundColor: kWhiteColor,
+                label: const Text('add reminder '),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                labelPadding:
+                    const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
+                labelStyle: const TextStyle(
+                  color: kBlackColor,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              Center(
+                child: button(
+                  'Save',
+                  Icons.data_saver_on_sharp,
+                  kBlackColor,
+                  () {
+                    if (_title.text.isNotEmpty &&
+                        _discription.text.isNotEmpty) {
+                      widget.docToEdit!.reference.update({
+                        'title': _title.text,
+                        'discription': _discription.text,
+                      }).whenComplete(() => Navigator.of(context).pop());
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
             ],
