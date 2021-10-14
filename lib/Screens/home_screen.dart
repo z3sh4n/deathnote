@@ -1,14 +1,17 @@
 import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deathnote/Screens/edit_note_screen.dart';
-import 'package:deathnote/Widgets/home_grid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:get/get.dart';
 
-import '../Widgets/new_note.dart';
+import '/Widgets/new_note.dart';
 import '/constrains/themes.dart';
 import '/Widgets/cusAppBar.dart';
+import '/Widgets/home_grid.dart';
+import '/Screens/404_error_screen.dart';
+import '/Screens/edit_note_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,6 +27,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final ref = FirebaseFirestore.instance.collection('users');
   late final Map<String, dynamic> userMap;
+
+  @override
+  void initState() {
+    super.initState();
+    checkconnect();
+  }
+
+  void checkconnect() async {
+    try {
+      var con = await (Connectivity().checkConnectivity());
+      if (con == ConnectivityResult.none) {
+        Get.offAll(const ErrorScreen());
+      }else{
+         Get.offAll(const ErrorScreen());
+      }
+    } catch (e) {
+      return print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +75,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
                     if (snapshot.data == null) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: kWhiteColor,
-                        ),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: kWhiteColor,
+                            ),
+                          ),
+                          Text(
+                            'NO Data found try to add some',
+                            style: TextStyle(
+                                color: kWhiteColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12),
+                          )
+                        ],
                       );
                     }
 

@@ -91,11 +91,14 @@ class _EditNoteState extends State<EditNote> {
                   children: [
                     TypeChip(
                       tx: 'personal',
+                      ic: Icons.info,
                       type: type,
                     ),
                     const SizedBox(width: 10),
                     TypeChip(
                       tx: 'Work',
+                                            ic: Icons.work,
+
                       type: type,
                     ),
                   ],

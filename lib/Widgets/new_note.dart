@@ -30,7 +30,8 @@ class _NewNoteState extends State<NewNote> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
         height: 500,
         child: Stack(children: [
@@ -54,11 +55,13 @@ class _NewNoteState extends State<NewNote> {
                       children: [
                         TypeChip(
                           tx: 'personal',
+                          ic: Icons.info,
                           type: type,
                         ),
                         const SizedBox(width: 10),
                         TypeChip(
                           tx: 'Work',
+                          ic: Icons.work,
                           type: type,
                         ),
                       ],
