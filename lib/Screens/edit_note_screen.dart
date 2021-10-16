@@ -55,8 +55,8 @@ class _EditNoteState extends State<EditNote> {
                       () => Get.snackbar(
                         'Deleted successfully',
                         '',
-                        icon: Icon(Icons.delete, color: Colors.red[300]),
-                        backgroundColor: kLightBlackColor,
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        backgroundColor: kLightBlackColor.withOpacity(0.3),
                         animationDuration: const Duration(milliseconds: 600),
                         colorText: kWhiteColor,
                         snackPosition: SnackPosition.BOTTOM,
@@ -84,6 +84,7 @@ class _EditNoteState extends State<EditNote> {
                   child: field(size, widget.docToEdit!['title'], _title, 1)),
               const hintx(
                 tx: 'Enter the Type of note here',
+                cx: kWhiteColor,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -97,8 +98,7 @@ class _EditNoteState extends State<EditNote> {
                     const SizedBox(width: 10),
                     TypeChip(
                       tx: 'Work',
-                                            ic: Icons.work,
-
+                      ic: Icons.work,
                       type: type,
                     ),
                   ],
@@ -115,9 +115,10 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(
                 height: 5,
               ),
+              
               Chip(
                 backgroundColor: kWhiteColor,
-                label: const Text('add reminder '),
+                label: const Text('add reminder'),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -149,7 +150,8 @@ class _EditNoteState extends State<EditNote> {
                               'Edited successfully',
                               '',
                               icon: const Icon(Icons.edit, color: kWhiteColor),
-                              backgroundColor: kLightBlackColor,
+                              backgroundColor:
+                                  kLightBlackColor.withOpacity(0.3),
                               animationDuration:
                                   const Duration(milliseconds: 600),
                               colorText: kWhiteColor,

@@ -25,7 +25,10 @@ class _TypeChipState extends State<TypeChip> {
         backgroundColor: kWhiteColor,
         label: Row(
           children: [
-             Icon(widget.ic),
+            Icon(
+              widget.ic,
+              size: 15,
+            ),
             Text(widget.tx),
           ],
         ),

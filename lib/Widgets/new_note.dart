@@ -35,7 +35,7 @@ class _NewNoteState extends State<NewNote> {
       child: SizedBox(
         height: 500,
         child: Stack(children: [
-          Container(color: kBlackColor),
+          Container(color: kWhiteColor),
           Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
@@ -47,7 +47,7 @@ class _NewNoteState extends State<NewNote> {
                     child: field(size, 'Title', _title, 1),
                   ),
                   const hintx(
-                    tx: 'Enter the Type of note here',
+                    tx: 'Enter the Type of note here',cx:kBlackColor,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -76,6 +76,10 @@ class _NewNoteState extends State<NewNote> {
                   const SizedBox(
                     height: 5,
                   ),
+                  const hintx(
+                tx: 'if you want to add reminder press this button or leave as it is',
+                cx: kWhiteColor,
+              ),
                   Chip(
                     backgroundColor: kWhiteColor,
                     label: const Text('add reminder '),
@@ -124,8 +128,10 @@ class _NewNoteState extends State<NewNote> {
 
 class hintx extends StatelessWidget {
   final String tx;
+  final Color? cx;
   const hintx({
     Key? key,
+    this.cx,
     required this.tx,
   }) : super(key: key);
 
@@ -135,7 +141,7 @@ class hintx extends StatelessWidget {
       padding: const EdgeInsets.only(left: 15),
       child: Text(
         tx,
-        style: const TextStyle(fontSize: 8, color: kWhiteColor),
+        style:  TextStyle(fontSize: 8, color: cx),
       ),
     );
   }
