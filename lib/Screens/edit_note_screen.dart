@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:deathnote/Widgets/new_note.dart';
-import 'package:deathnote/Widgets/type_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Widgets/bottom_fields.dart';
-import '../Widgets/sheet_button.dart';
+import '/Widgets/new_note.dart';
+import '/Widgets/type_chip.dart';
+import '/Widgets/bottom_fields.dart';
+import '/Widgets/sheet_button.dart';
 import '/constrains/themes.dart';
 
 // ignore: must_be_immutable

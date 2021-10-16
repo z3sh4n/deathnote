@@ -34,8 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
     checkconnect();
   }
 
-  
-
   void checkconnect() async {
     var con = await (Connectivity().checkConnectivity());
     if (con == ConnectivityResult.none) {
@@ -98,13 +96,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
-                        // gridDelegate:
-                        //     const SliverGridDelegateWithFixedCrossAxisCount(
-                        //         crossAxisCount: 2, childAspectRatio: 1),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (ctx, i) {
                           Map<String, dynamic>? data = snapshot.data!.docs[i]
                               .data() as Map<String, dynamic>?;
+                          checkconnect();
                           return AnimationConfiguration.staggeredList(
                             position: i,
                             duration: const Duration(milliseconds: 500),
@@ -134,11 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       openBuilder: (ctx, _) => EditNote(
                                             docToEdit: snapshot.data!.docs[i],
                                             dataa: data,
-                                          ))
-                                  //  HomeGrid(
-                                  //   data: data,
-                                  // ),
-                                  ),
+                                          ))),
                             ),
                           );
                         },

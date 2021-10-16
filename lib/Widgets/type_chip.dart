@@ -1,5 +1,6 @@
-import 'package:deathnote/constrains/themes.dart';
 import 'package:flutter/material.dart';
+
+import '/constrains/themes.dart';
 
 class TypeChip extends StatefulWidget {
   String tx;

@@ -40,78 +40,78 @@ class _ErrorScreenState extends State<ErrorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: kBlackColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              height: 35,
-              width: 35,
-              child: ClipRRect(
-                child: Image.asset(
-                  'assets/images/20211005_172155.jpg',
-                  fit: BoxFit.cover,
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: kBlackColor,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 35,
+                width: 35,
+                child: ClipRRect(
+                  child: Image.asset(
+                    'assets/images/20211005_172155.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                borderRadius: BorderRadius.circular(50),
               ),
+              const Text('DEathnote'),
+              Column(
+                children: [
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.logout)),
+                ],
+              ),
+            ],
+          ),
+        ),
+        body: Stack(
+          children: [
+            Container(
+              color: kBlackColor,
             ),
-            const Text('DEathnote'),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.logout)),
+                const Text(
+                  'No internet connction please turn on your mobile data or wifi',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: kWhiteColor, fontSize: 16),
+                ),
+                const SizedBox(height: 10),
+                InkWell(
+                  onTap: checkconnect,
+                  child: Chip(
+                    backgroundColor: kWhiteColor,
+                    label: isL
+                        ? const CircularProgressIndicator(color: kBlackColor)
+                        : const Text('retry'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    labelPadding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 17),
+                    labelStyle: const TextStyle(
+                      color: kBlackColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ],
         ),
-      ),
-      body: Stack(
-        children: [
-          Container(
-            color: kBlackColor,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'No internet connction please turn on your mobile data or wifi',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: kWhiteColor, fontSize: 16),
-              ),
-              InkWell(
-                onTap: checkconnect,
-                child: Chip(
-                  backgroundColor: kWhiteColor,
-                  label: isL
-                      ? const CircularProgressIndicator(color: kBlackColor)
-                      : const Text('retry'),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  labelPadding:
-                      const EdgeInsets.symmetric(vertical: 4, horizontal: 17),
-                  labelStyle: const TextStyle(
-                    color: kBlackColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-       floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           onPressed: checkconnect,
           child: const Icon(
             Icons.add,
             color: kBlackColor,
             size: 50,
           ),
-        )
-    );
+        ));
   }
 }
