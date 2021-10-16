@@ -50,15 +50,14 @@ class TaskList extends StatelessWidget {
                   Expanded(
                     flex: 8,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 6),
                         Text(
                           data!['title'],
-                          textAlign: TextAlign.start,
                           softWrap: true,
                           style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 18,
                             letterSpacing: 1,
                             overflow: TextOverflow.ellipsis,
                             fontWeight: FontWeight.bold,
@@ -70,9 +69,8 @@ class TaskList extends StatelessWidget {
                           data!['discription'],
                           maxLines: 1,
                           softWrap: true,
-                          textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontSize: 9,
+                              fontSize: 12,
                               letterSpacing: 1,
                               overflow: TextOverflow.ellipsis,
                               color: kWhiteColor.withOpacity(0.6)),

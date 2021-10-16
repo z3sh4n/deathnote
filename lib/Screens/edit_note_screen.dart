@@ -81,7 +81,7 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: field(size, widget.docToEdit!['title'], _title, 1)),
+                  child: field(size, widget.docToEdit!['title'], _title, 1,kWhiteColor)),
               const hintx(
                 tx: 'Enter the Type of note here',
                 cx: kWhiteColor,
@@ -109,7 +109,7 @@ class _EditNoteState extends State<EditNote> {
                 child: SizedBox(
                   height: 100,
                   child: field(
-                      size, widget.docToEdit!['discription'], _discription, 3),
+                      size, widget.docToEdit!['discription'], _discription, 3,kWhiteColor),
                 ),
               ),
               const SizedBox(

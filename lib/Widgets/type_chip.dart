@@ -2,7 +2,7 @@ import 'package:deathnote/constrains/themes.dart';
 import 'package:flutter/material.dart';
 
 class TypeChip extends StatefulWidget {
-  final String tx;
+  String tx;
   String type;
   IconData ic;
   TypeChip({Key? key, required this.tx, required this.type, required this.ic})

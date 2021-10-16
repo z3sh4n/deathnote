@@ -44,10 +44,11 @@ class _NewNoteState extends State<NewNote> {
                   const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: field(size, 'Title', _title, 1),
+                    child: field(size, 'Title', _title, 1, kBlackColor),
                   ),
                   const hintx(
-                    tx: 'Enter the Type of note here',cx:kBlackColor,
+                    tx: 'Enter the Type of note here',
+                    cx: kBlackColor,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -71,15 +72,16 @@ class _NewNoteState extends State<NewNote> {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
                         height: 100,
-                        child: field(size, 'Discription', _discription, 3)),
+                        child: field(
+                            size, 'Discription', _discription, 3, kBlackColor)),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
                   const hintx(
-                tx: 'if you want to add reminder press this button or leave as it is',
-                cx: kWhiteColor,
-              ),
+                    tx: 'if you want to add reminder press this button or leave as it is',
+                    cx: kBlackColor,
+                  ),
                   Chip(
                     backgroundColor: kWhiteColor,
                     label: const Text('add reminder '),
@@ -101,18 +103,18 @@ class _NewNoteState extends State<NewNote> {
                       Icons.data_saver_on_sharp,
                       kLightBlackColor,
                       () {
+                        print('ddd');
                         if (_title.text.isNotEmpty &&
-                            _discription.text.isNotEmpty &&
-                            type.isNotEmpty) {
+                            _discription.text.isNotEmpty) {
                           ref
                               .doc(_auth.currentUser!.uid)
                               .collection('notes')
                               .add({
                             'title': _title.text,
                             'discription': _discription.text,
-                            'type': type,
                           }).whenComplete(() => Navigator.of(context).pop());
                         } else {
+                          print('ddssssd');
                           return null;
                         }
                       },
@@ -141,7 +143,7 @@ class hintx extends StatelessWidget {
       padding: const EdgeInsets.only(left: 15),
       child: Text(
         tx,
-        style:  TextStyle(fontSize: 8, color: cx),
+        style: TextStyle(fontSize: 8, color: cx),
       ),
     );
   }
