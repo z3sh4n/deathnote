@@ -28,9 +28,9 @@ class _ErrorScreenState extends State<ErrorScreen> {
     });
     var con = await (Connectivity().checkConnectivity());
     if (con == ConnectivityResult.mobile) {
-      Get.offAll(const HomeScreen());
+      Get.offAll(() => const HomeScreen());
     } else if (con == ConnectivityResult.wifi) {
-      Get.offAll(const HomeScreen());
+      Get.offAll(() => const HomeScreen());
     }
     setState(() {
       isL = false;
@@ -76,11 +76,10 @@ class _ErrorScreenState extends State<ErrorScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Center(
-                child: Text(
-                  'No internet connction please turn on your mobile data or wifi',
-                  style: TextStyle(color: kWhiteColor, fontSize: 16),
-                ),
+              const Text(
+                'No internet connction please turn on your mobile data or wifi',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: kWhiteColor, fontSize: 16),
               ),
               InkWell(
                 onTap: checkconnect,

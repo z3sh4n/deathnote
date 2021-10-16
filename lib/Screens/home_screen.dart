@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void checkconnect() async {
     var con = await (Connectivity().checkConnectivity());
     if (con == ConnectivityResult.none) {
-      Get.offAll(const ErrorScreen());
+      Get.offAll(() => const ErrorScreen());
     } else {
       return;
     }

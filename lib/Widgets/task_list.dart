@@ -48,13 +48,14 @@ class TaskList extends StatelessWidget {
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 3),
                         Text(
                           data!['title'],
-                          maxLines: 1,
+                          textAlign: TextAlign.start,
                           softWrap: true,
                           style: const TextStyle(
                             fontSize: 15,
@@ -69,6 +70,7 @@ class TaskList extends StatelessWidget {
                           data!['discription'],
                           maxLines: 1,
                           softWrap: true,
+                          textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 9,
                               letterSpacing: 1,
