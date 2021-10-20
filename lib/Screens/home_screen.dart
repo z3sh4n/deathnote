@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import '/constrains/themes.dart';
 import '/Screens/404_error_screen.dart';
 import '/Screens/edit_note_screen.dart';
+import '/Widgets/drawer.dart';
 import '/Widgets/new_note.dart';
-import '/Widgets/cusAppBar.dart';
 import '/Widgets/task_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,9 +23,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  int columnCount = 2;
-
   final ref = FirebaseFirestore.instance.collection('users');
+
   late final Map<String, dynamic> userMap;
 
   @override
@@ -45,109 +44,107 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: customAppBar(context),
-        body: Stack(
-          children: [
-            Container(color: kBlackColor),
-            AnimationLimiter(
-                key: UniqueKey(),
-                child: StreamBuilder(
-                  stream: ref
-                      .doc(_auth.currentUser!.uid)
-                      .collection('notes')
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('SomeThing went Wrong'),
-                      );
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      const Center(
-                        child: CircularProgressIndicator(
-                          color: kWhiteColor,
+    return SafeArea(
+      child: Scaffold(
+          drawer: drawer(auth: _auth),
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            backgroundColor: kBlackColor,
+            title: const Text('DEathnote'),
+          ),
+          body: Stack(
+            children: [
+              Container(color: kBlackColor),
+              AnimationLimiter(
+                  key: UniqueKey(),
+                  child: StreamBuilder(
+                    stream: ref
+                        .doc(_auth.currentUser!.uid)
+                        .collection('notes')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                          child: Text('SomeThing went Wrong'),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        const Center(
+                          child: CircularProgressIndicator(
+                            color: kWhiteColor,
+                          ),
+                        );
+                      }
+                      if (snapshot.data == null) {
+                        return const Text(
+                          'NO Data found try to add some',
+                          style: TextStyle(
+                              color: kWhiteColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                        );
+                      }
+
+                      return AnimationLimiter(
+                        key: UniqueKey(),
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (ctx, i) {
+                            Map<String, dynamic>? data = snapshot.data!.docs[i]
+                                .data() as Map<String, dynamic>?;
+                            checkconnect();
+                            return AnimationConfiguration.staggeredList(
+                              position: i,
+                              duration: const Duration(milliseconds: 500),
+                              child: ScaleAnimation(
+                                duration: const Duration(milliseconds: 900),
+                                curve: Curves.fastLinearToSlowEaseIn,
+                                child: FadeInAnimation(
+                                    child: OpenContainer(
+                                        openColor: kLightBlackColor,
+                                        middleColor: kLightBlackColor,
+                                        closedShape:
+                                            const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30)),
+                                        ),
+                                        openShape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30)),
+                                        ),
+                                        closedColor: kBlackColor,
+                                        closedElevation: 0,
+                                        openElevation: 0,
+                                        transitionDuration:
+                                            const Duration(milliseconds: 700),
+                                        closedBuilder: (context, _) => TaskList(
+                                              data: data,
+                                            ),
+                                        openBuilder: (ctx, _) => EditNote(
+                                              docToEdit: snapshot.data!.docs[i],
+                                              dataa: data,
+                                            ))),
+                              ),
+                            );
+                          },
                         ),
                       );
-                    }
-                    if (snapshot.data == null) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: const [
-                          Center(
-                            child: CircularProgressIndicator(
-                              color: kWhiteColor,
-                            ),
-                          ),
-                          Text(
-                            'NO Data found try to add some',
-                            style: TextStyle(
-                                color: kWhiteColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12),
-                          )
-                        ],
-                      );
-                    }
-
-                    return AnimationLimiter(
-                      key: UniqueKey(),
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(
-                            parent: AlwaysScrollableScrollPhysics()),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (ctx, i) {
-                          Map<String, dynamic>? data = snapshot.data!.docs[i]
-                              .data() as Map<String, dynamic>?;
-                          checkconnect();
-                          return AnimationConfiguration.staggeredList(
-                            position: i,
-                            duration: const Duration(milliseconds: 500),
-                            child: ScaleAnimation(
-                              duration: const Duration(milliseconds: 900),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                              child: FadeInAnimation(
-                                  child: OpenContainer(
-                                      openColor: kLightBlackColor,
-                                      middleColor: kLightBlackColor,
-                                      closedShape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30)),
-                                      ),
-                                      openShape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30)),
-                                      ),
-                                      closedColor: kBlackColor,
-                                      closedElevation: 0,
-                                      openElevation: 0,
-                                      transitionDuration:
-                                          const Duration(milliseconds: 700),
-                                      closedBuilder: (context, _) => TaskList(
-                                            data: data,
-                                          ),
-                                      openBuilder: (ctx, _) => EditNote(
-                                            docToEdit: snapshot.data!.docs[i],
-                                            dataa: data,
-                                          ))),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                )),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => _startNote(context, const NewNote()),
-          child: const Icon(
-            Icons.add,
-            color: kBlackColor,
-            size: 50,
+                    },
+                  )),
+            ],
           ),
-        ));
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => _startNote(context, const NewNote()),
+            child: const Icon(
+              Icons.add,
+              color: kBlackColor,
+              size: 50,
+            ),
+          )),
+    );
   }
 
   void _startNote(BuildContext ctx, Widget w) {

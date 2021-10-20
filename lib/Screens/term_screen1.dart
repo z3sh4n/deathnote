@@ -1,37 +1,13 @@
 // ignore_for_file: unnecessary_null_comparison
 
-import 'package:animations/animations.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:deathnote/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/constrains/themes.dart';
-import '404_error_screen.dart';
-import 'auth_screen.dart';
 
-class TermScreen extends StatefulWidget {
-  
-  const TermScreen({Key? key}) : super(key: key);
-
-  @override
-  State<TermScreen> createState() => _TermScreenState();
-}
-
-class _TermScreenState extends State<TermScreen> {
-  @override
-  void initState() {
-    super.initState();
-    checkconnect();
-  }
-
-  void checkconnect() async {
-    var con = await (Connectivity().checkConnectivity());
-    if (con == ConnectivityResult.none) {
-      Get.offAll(() => const ErrorScreen());
-    } else {
-      return;
-    }
-  }
+class TermScreen1 extends StatelessWidget {
+  const TermScreen1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +46,7 @@ class _TermScreenState extends State<TermScreen> {
                   softWrap: true,
                 ),
                 const Text(
-                  'No not really i am joking!! Nothing will happen so chill',
+                  'No not really i am just kidding!! Nothing will happen so chill',
                   style: TextStyle(
                     color: kWhiteColor,
                     fontSize: 16,
@@ -78,29 +54,29 @@ class _TermScreenState extends State<TermScreen> {
                   textAlign: TextAlign.center,
                   softWrap: true,
                 ),
-                OpenContainer(
-                    closedShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    transitionDuration: const Duration(seconds: 1),
-                    closedColor: kLightBlackColor,
-                    closedBuilder: (ctx, _) => Container(
-                          alignment: Alignment.center,
-                          width: 1150,
-                          height: 50,
-                          child: const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              "Sign Up/login",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                InkWell(
+                  onTap: () {
+                    Get.offAll(() => const HomeScreen());
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: kBlackColor.withOpacity(0.8),
+                    ),
+                    alignment: Alignment.center,
+                    width: 1150,
+                    height: 50,
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "lets get started",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
-                    openBuilder: (ctx, _) {
-                      return const AuthScreen();
-                    }),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           )

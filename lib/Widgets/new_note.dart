@@ -125,6 +125,7 @@ class _NewNoteState extends State<NewNote> {
   }
 }
 
+// ignore: camel_case_types
 class hintx extends StatelessWidget {
   final String tx;
   final Color? cx;

@@ -41,31 +41,11 @@ class _ErrorScreenState extends State<ErrorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: const Icon(Icons.thumb_up_off_alt_rounded),
           elevation: 0,
           centerTitle: true,
           backgroundColor: kBlackColor,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 35,
-                width: 35,
-                child: ClipRRect(
-                  child: Image.asset(
-                    'assets/images/20211005_172155.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-              ),
-              const Text('DEathnote'),
-              Column(
-                children: [
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.logout)),
-                ],
-              ),
-            ],
-          ),
+          title: const Text('DEathnote'),
         ),
         body: Stack(
           children: [
