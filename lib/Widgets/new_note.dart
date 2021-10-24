@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '/constrains/themes.dart';
-import '/Widgets/Sheet_button.dart';
 import '/Widgets/bottom_fields.dart';
 import '/Widgets/type_chip.dart';
 
@@ -24,7 +24,41 @@ class _NewNoteState extends State<NewNote> {
 
   final TextEditingController _discription = TextEditingController();
 
+  DateTime? _selectedDate;
+
+  TimeOfDay? _selectedTime;
+
   String type = '';
+
+  Future<void> showDateAndTime() {
+    return showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2025),
+      currentDate: DateTime.now(),
+      initialDatePickerMode: DatePickerMode.day,
+    ).then((value) {
+      if (value == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = value;
+      });
+    }).whenComplete(
+      () => showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      ).then((value) {
+        if (value == null) {
+          return;
+        }
+        setState(() {
+          _selectedTime = value;
+        });
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,44 +110,96 @@ class _NewNoteState extends State<NewNote> {
               const SizedBox(
                 height: 5,
               ),
-              const hintx(
-                tx: 'if you want to add reminder press this button or leave as it is',
-                cx: kBlackColor,
+              _selectedTime != null
+                  ? const SizedBox()
+                  : const hintx(
+                      tx: 'want to add reminder ? press this button',
+                      cx: kBlackColor,
+                    ),
+              InkWell(
+                onTap: () {
+                  showDateAndTime();
+                },
+                // 'chosen date ${DateFormat.yMMMMd().format(_selectedDate!)} and time ${_selectedTime!.format(context)}'
+                child: _selectedTime != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RichText(
+                          text: TextSpan(
+                            style: const TextStyle(
+                                color: kBlackColor, fontFamily: 'DNF'),
+                            children: [
+                              const TextSpan(text: 'chosen date: '),
+                              TextSpan(
+                                  text: DateFormat.yMMMMd()
+                                      .format(_selectedDate!),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              const TextSpan(text: ' and time '),
+                              TextSpan(
+                                  text: _selectedTime!.format(context),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Chip(
+                        backgroundColor: kWhiteColor,
+                        label: const Text('add reminder '),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelPadding: const EdgeInsets.symmetric(
+                            vertical: 3.8, horizontal: 17),
+                        labelStyle: const TextStyle(
+                          color: kBlackColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ),
-              Chip(
-                backgroundColor: kWhiteColor,
-                label: const Text('add reminder '),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelPadding:
-                    const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
-                labelStyle: const TextStyle(
-                  color: kBlackColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Spacer(),
-              Center(
-                child: button(
-                  'Save',
-                  Icons.data_saver_on_sharp,
-                  kLightBlackColor,
-                  () {
-                    if (_title.text.isNotEmpty &&
-                        _discription.text.isNotEmpty &&
-                        type.isNotEmpty) {
-                      ref.doc(_auth.currentUser!.uid).collection('notes').add({
-                        'title': _title.text,
-                        'discription': _discription.text,
-                        'type': type.toString()
-                      }).whenComplete(() => Navigator.of(context).pop());
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
+              Row(
+                children: [
+                  const Spacer(),
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all(kBlackColor),
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.black26)),
+                    onPressed: () {
+                      if (_title.text.isNotEmpty &&
+                          _discription.text.isNotEmpty) {
+                        ref
+                            .doc(_auth.currentUser!.uid)
+                            .collection('notes')
+                            .add({
+                          'title': _title.text,
+                          'discription': _discription.text,
+                          'type': type.toString(),
+                          'redate': DateFormat.yMMMMd().format(_selectedDate!),
+                          'retime': _selectedTime!.format(context),
+                        }).whenComplete(() => Navigator.of(context).pop());
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.data_saver_on_sharp,
+                    ),
+                    label: const Text(
+                      'save',
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
             ],
           )

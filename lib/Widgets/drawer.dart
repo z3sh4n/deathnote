@@ -22,51 +22,56 @@ class drawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
+      child: Stack(
         children: [
-          UserAccountsDrawerHeader(
-            decoration:
-                BoxDecoration(color: kLightBlackColor.withOpacity(0.15)),
-            currentAccountPictureSize: const Size.fromRadius(44.0),
-            currentAccountPicture: ClipRRect(
-              child: Image.asset(
-                'assets/images/20211005_172155.jpg',
-                fit: BoxFit.cover,
+          Container(color: kBlackColor),
+          Column(
+            children: [
+              UserAccountsDrawerHeader(
+                decoration:
+                    BoxDecoration(color: kLightBlackColor.withOpacity(0.15)),
+                currentAccountPictureSize: const Size.fromRadius(44.0),
+                currentAccountPicture: ClipRRect(
+                  child: Image.asset(
+                    'assets/images/20211005_172155.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                accountEmail: Text(
+                  _auth.currentUser!.email!,
+                  style: const TextStyle(fontSize: 15, color: kWhiteColor),
+                ),
+                accountName: Text(_auth.currentUser!.displayName!),
               ),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            accountEmail: Text(
-              _auth.currentUser!.email!,
-              style: const TextStyle(fontSize: 15, color: kBlackColor),
-            ),
-            accountName: Text(_auth.currentUser!.displayName!),
+              WidgetList(
+                ico: Icons.home_sharp,
+                tx: 'Home',
+                ot: () {
+                  Get.offAll(() => const HomeScreen());
+                },
+              ),
+              WidgetList(
+                ico: Icons.help,
+                tx: 'helper guide',
+                ot: () {
+                  Get.to(() => const HelperGuideScreen());
+                },
+              ),
+              WidgetList(
+                ico: Icons.info_outline,
+                tx: 'terms and Introduction',
+                ot: () {
+                  Get.to(() => const TermScreen1());
+                },
+              ),
+              const Spacer(),
+              WidgetList(
+                  ico: Icons.logout_outlined,
+                  tx: 'Logout',
+                  ot: () => logOut(context)),
+            ],
           ),
-          WidgetList(
-            ico: Icons.home_sharp,
-            tx: 'Home',
-            ot: () {
-              Get.offAll(() => const HomeScreen());
-            },
-          ),
-          WidgetList(
-            ico: Icons.help,
-            tx: 'helper guide',
-            ot: () {
-              Get.to(() => const HelperGuideScreen());
-            },
-          ),
-          WidgetList(
-            ico: Icons.info_outline,
-            tx: 'terms and Introduction',
-            ot: () {
-              Get.to(() => const TermScreen1());
-            },
-          ),
-          const Spacer(),
-          WidgetList(
-              ico: Icons.logout_outlined,
-              tx: 'Logout',
-              ot: () => logOut(context)),
         ],
       ),
     );
@@ -90,13 +95,15 @@ class WidgetList extends StatelessWidget {
       onTap: ot,
       leading: Icon(
         ico,
+        color: kWhiteColor.withOpacity(0.5),
         size: 25,
       ),
       minLeadingWidth: -40,
       title: Text(
         tx,
         style: const TextStyle(
-          fontWeight: FontWeight.bold,
+          color: kWhiteColor,
+          // fontWeight: FontWeight.bold,
         ),
       ),
     );

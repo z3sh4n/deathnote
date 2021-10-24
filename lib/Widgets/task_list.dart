@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 
 import '/constrains/themes.dart';
 
-class TaskList extends StatelessWidget {
+class TaskList extends StatefulWidget {
   final Map<String, dynamic>? data;
   const TaskList({Key? key, this.data}) : super(key: key);
 
+  @override
+  State<TaskList> createState() => _TaskListState();
+}
+
+class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
 
     // ignore: unused_local_variable
     IconData ic;
-    switch (data!['type']) {
+    switch (widget.data!['type']) {
       case 'Work':
         ic = Icons.work;
         break;
@@ -22,6 +27,8 @@ class TaskList extends StatelessWidget {
       default:
         ic = Icons.work;
     }
+
+    bool? val = false;
 
     return SizedBox(
       width: _w,
@@ -35,14 +42,16 @@ class TaskList extends StatelessWidget {
                   child: Checkbox(
                     activeColor: kWhiteColor,
                     checkColor: kLightBlackColor,
-                    value: false,
+                    value: val,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     onChanged: (bool? value) {
-                      value = true;
+                      setState(() {
+                        val = value;
+                      });
                     },
                   ),
-                  scale: 1.5)),
+                  scale: 1.2)),
           Expanded(
               child: SizedBox(
             height: 75,
@@ -58,22 +67,22 @@ class TaskList extends StatelessWidget {
                     height: 33,
                     width: 36,
                     decoration: BoxDecoration(
-                        color: kWhiteColor,
+                        color: kWhiteColor.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(8)),
                     child: Icon(ic),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    flex: 8,
+                    flex: 10,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 6),
                         Text(
-                          data!['title'],
+                          widget.data!['title'],
                           softWrap: true,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 15,
                             letterSpacing: 1,
                             overflow: TextOverflow.ellipsis,
                             fontWeight: FontWeight.bold,
@@ -82,7 +91,7 @@ class TaskList extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          data!['discription'],
+                          widget.data!['discription'],
                           maxLines: 1,
                           softWrap: true,
                           style: TextStyle(
@@ -94,13 +103,16 @@ class TaskList extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     flex: 1,
                     child: Text(
-                      '10 AM',
-                      style: TextStyle(
-                        fontSize: 11,
+                      widget.data!['retime'] ?? '',
+                      maxLines: 1,
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontSize: 9,
                         color: kWhiteColor,
+                        overflow: TextOverflow.visible,
                       ),
                     ),
                   ),

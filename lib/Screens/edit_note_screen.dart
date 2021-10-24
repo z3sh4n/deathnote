@@ -81,7 +81,8 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(height: 20),
               Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: field(size, widget.docToEdit!['title'], _title, 1,kWhiteColor)),
+                  child: field(size, widget.docToEdit!['title'], _title, 1,
+                      kWhiteColor)),
               const hintx(
                 tx: 'Enter the Type of note here',
                 cx: kWhiteColor,
@@ -108,28 +109,19 @@ class _EditNoteState extends State<EditNote> {
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
                   height: 100,
-                  child: field(
-                      size, widget.docToEdit!['discription'], _discription, 3,kWhiteColor),
+                  child: field(size, widget.docToEdit!['discription'],
+                      _discription, 3, kWhiteColor),
                 ),
               ),
               const SizedBox(
                 height: 5,
               ),
-              
-              Chip(
-                backgroundColor: kWhiteColor,
-                label: const Text('add reminder'),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                labelPadding:
-                    const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
-                labelStyle: const TextStyle(
-                  color: kBlackColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Chosen date: ${widget.dataa!['redate'] ?? '-'} and time ${widget.dataa!['retime'] ?? '-'}',
+                    style: const TextStyle(color: kWhiteColor),
+                  )),
               const Spacer(),
               Center(
                 child: button(
