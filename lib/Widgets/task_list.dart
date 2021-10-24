@@ -10,24 +10,39 @@ class TaskList extends StatelessWidget {
   Widget build(BuildContext context) {
     double _w = MediaQuery.of(context).size.width;
 
+    // ignore: unused_local_variable
+    IconData ic;
+    switch (data!['type']) {
+      case 'Work':
+        ic = Icons.work;
+        break;
+      case 'personal':
+        ic = Icons.info;
+        break;
+      default:
+        ic = Icons.work;
+    }
+
     return SizedBox(
       width: _w,
       child: Row(
         children: [
-          // Theme(
-          //     data: ThemeData(
-          //         primarySwatch: Colors.blue,
-          //         unselectedWidgetColor: kLightBlackColor),
-          //     child: Transform.scale(
-          //         child: Checkbox(
-          //           activeColor: kWhiteColor,
-          //           checkColor: kLightBlackColor,
-          //           value: true,
-          //           shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.circular(5)),
-          //           onChanged: (bool? value) {},
-          //         ),
-          //         scale: 1.5)),
+          Theme(
+              data: ThemeData(
+                  primarySwatch: Colors.blue,
+                  unselectedWidgetColor: kLightBlackColor),
+              child: Transform.scale(
+                  child: Checkbox(
+                    activeColor: kWhiteColor,
+                    checkColor: kLightBlackColor,
+                    value: false,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    onChanged: (bool? value) {
+                      value = true;
+                    },
+                  ),
+                  scale: 1.5)),
           Expanded(
               child: SizedBox(
             height: 75,
@@ -45,7 +60,7 @@ class TaskList extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: kWhiteColor,
                         borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(Icons.work),
+                    child: Icon(ic),
                   ),
                   const SizedBox(width: 20),
                   Expanded(

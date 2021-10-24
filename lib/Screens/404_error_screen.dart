@@ -14,8 +14,6 @@ class ErrorScreen extends StatefulWidget {
 }
 
 class _ErrorScreenState extends State<ErrorScreen> {
-  bool isL = false;
-
   @override
   void initState() {
     super.initState();
@@ -23,25 +21,19 @@ class _ErrorScreenState extends State<ErrorScreen> {
   }
 
   void checkconnect() async {
-    setState(() {
-      isL = true;
-    });
     var con = await (Connectivity().checkConnectivity());
     if (con == ConnectivityResult.mobile) {
       Get.offAll(() => const HomeScreen());
     } else if (con == ConnectivityResult.wifi) {
       Get.offAll(() => const HomeScreen());
     }
-    setState(() {
-      isL = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: const Icon(Icons.thumb_up_off_alt_rounded),
+          leading: const Icon(Icons.view_headline_rounded),
           elevation: 0,
           centerTitle: true,
           backgroundColor: kBlackColor,
@@ -66,9 +58,7 @@ class _ErrorScreenState extends State<ErrorScreen> {
                   onTap: checkconnect,
                   child: Chip(
                     backgroundColor: kWhiteColor,
-                    label: isL
-                        ? const CircularProgressIndicator(color: kBlackColor)
-                        : const Text('retry'),
+                    label: const Text('retry'),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

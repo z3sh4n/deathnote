@@ -45,7 +45,7 @@ class _NewNoteState extends State<NewNote> {
                 child: field(size, 'Title', _title, 1, kBlackColor),
               ),
               const hintx(
-                tx: 'Enter the Type of note here',
+                tx: 'Select the Type of note here',
                 cx: kBlackColor,
               ),
               Padding(
@@ -86,8 +86,8 @@ class _NewNoteState extends State<NewNote> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                labelPadding: const EdgeInsets.symmetric(
-                    vertical: 3.8, horizontal: 17),
+                labelPadding:
+                    const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
                 labelStyle: const TextStyle(
                   color: kBlackColor,
                   fontSize: 12,
@@ -101,15 +101,13 @@ class _NewNoteState extends State<NewNote> {
                   Icons.data_saver_on_sharp,
                   kLightBlackColor,
                   () {
-
                     if (_title.text.isNotEmpty &&
-                        _discription.text.isNotEmpty) {
-                      ref
-                          .doc(_auth.currentUser!.uid)
-                          .collection('notes')
-                          .add({
+                        _discription.text.isNotEmpty &&
+                        type.isNotEmpty) {
+                      ref.doc(_auth.currentUser!.uid).collection('notes').add({
                         'title': _title.text,
                         'discription': _discription.text,
+                        'type': type.toString()
                       }).whenComplete(() => Navigator.of(context).pop());
                     } else {
                       return null;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/constrains/themes.dart';
 
+// ignore: must_be_immutable
 class TypeChip extends StatefulWidget {
   String tx;
   String type;
@@ -18,9 +19,7 @@ class _TypeChipState extends State<TypeChip> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        setState(() {
-          widget.type = widget.tx;
-        });
+        widget.type = widget.tx.toString();
       },
       child: Chip(
         backgroundColor: kWhiteColor,
@@ -30,7 +29,7 @@ class _TypeChipState extends State<TypeChip> {
               widget.ic,
               size: 15,
             ),
-            Text(widget.tx),
+            Text(widget.tx.toString()),
           ],
         ),
         shape: RoundedRectangleBorder(

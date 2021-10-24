@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
 import '/constrains/themes.dart';
@@ -77,12 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
                       if (snapshot.data == null) {
-                        return const Text(
-                          'NO Data found try to add some',
-                          style: TextStyle(
-                              color: kWhiteColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12),
+                        return const Center(
+                          child: Text(
+                            'NO Data found try to add some',
+                            style: TextStyle(
+                                color: kWhiteColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14),
+                          ),
                         );
                       }
 
