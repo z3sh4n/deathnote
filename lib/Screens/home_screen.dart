@@ -143,24 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ))
                                       ],
                                     );
-                                    // Get.defaultDialog(
-                                    //   confirm: const Text('yes'),
-                                    //   confirmTextColor: kWhiteColor,
-                                    //   onConfirm: () {
-                                    //     Navigator.of(context).pop(true);
-                                    //   },
-                                    //   cancelTextColor:
-                                    //       kWhiteColor.withOpacity(0.5),
-                                    //   cancel: const Text('no'),
-                                    //   onCancel: () {
-                                    //     Navigator.of(context).pop(false);
-                                    //   },
-                                    //   backgroundColor: kBlackColor,
-                                    //   title: 'Confirm?',
-                                    //   content: const Text(
-                                    //       'are you sure you wish to delete this note?',
-                                    //       style: TextStyle(color: kWhiteColor)),
-                                    // );
                                   },
                                   onDismissed: (d) async {
                                     await snapshot.data!.docs[i].reference
@@ -247,3 +229,10 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 }
+
+
+// flutter_native_splash:
+//   color:'#ffffff'
+//   image: assets/images/sdd.png
+//   android:true
+//   android_gravity: center

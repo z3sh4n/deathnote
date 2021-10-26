@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import '/constrains/themes.dart';
 import '/Widgets/bottom_fields.dart';
-import '/Widgets/type_chip.dart';
 
 class NewNote extends StatefulWidget {
   const NewNote({Key? key}) : super(key: key);
@@ -30,14 +29,13 @@ class _NewNoteState extends State<NewNote> {
 
   String type = '';
 
-  Future<void> showDateAndTime() {
+  Future<void>? showDateAndTime() {
     return showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2021),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2025),
       currentDate: DateTime.now(),
-      initialDatePickerMode: DatePickerMode.day,
     ).then((value) {
       if (value == null) {
         return;
@@ -45,19 +43,23 @@ class _NewNoteState extends State<NewNote> {
       setState(() {
         _selectedDate = value;
       });
-    }).whenComplete(
-      () => showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      ).then((value) {
-        if (value == null) {
-          return;
-        }
-        setState(() {
-          _selectedTime = value;
+      // ignore: unnecessary_null_comparison
+      if (value != null) {
+        showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+        ).then((value) {
+          if (value == null) {
+            return;
+          }
+          setState(() {
+            _selectedTime = value;
+          });
         });
-      }),
-    );
+      } else {
+        return;
+      }
+    });
   }
 
   @override
@@ -86,16 +88,14 @@ class _NewNoteState extends State<NewNote> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    TypeChip(
-                      tx: 'personal',
-                      ic: Icons.info,
-                      type: type,
+                    ch(
+                      'personal',
+                      Icons.info,
                     ),
                     const SizedBox(width: 10),
-                    TypeChip(
-                      tx: 'Work',
-                      ic: Icons.work,
-                      type: type,
+                    ch(
+                      'Work',
+                      Icons.work,
                     ),
                   ],
                 ),
@@ -120,7 +120,6 @@ class _NewNoteState extends State<NewNote> {
                 onTap: () {
                   showDateAndTime();
                 },
-                // 'chosen date ${DateFormat.yMMMMd().format(_selectedDate!)} and time ${_selectedTime!.format(context)}'
                 child: _selectedTime != null
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -173,21 +172,19 @@ class _NewNoteState extends State<NewNote> {
                         ),
                         backgroundColor: MaterialStateProperty.all(kBlackColor),
                         overlayColor:
-                            MaterialStateProperty.all(Colors.black26)),
+                            MaterialStateProperty.all(Colors.black45)),
                     onPressed: () {
-                      if (_title.text.isNotEmpty &&
-                          _discription.text.isNotEmpty) {
-                        ref
-                            .doc(_auth.currentUser!.uid)
-                            .collection('notes')
-                            .add({
-                          'title': _title.text,
-                          'discription': _discription.text,
-                          'type': type.toString(),
-                          'redate': DateFormat.yMMMMd().format(_selectedDate!),
-                          'retime': _selectedTime!.format(context),
-                        }).whenComplete(() => Navigator.of(context).pop());
-                      }
+                      ref.doc(_auth.currentUser!.uid).collection('notes').add({
+                        'title': _title.text,
+                        'discription': _discription.text,
+                        'type': type,
+                        'redate': _selectedDate == null
+                            ? '-'
+                            : DateFormat.yMMMMd().format(_selectedDate!),
+                        'retime': _selectedTime == null
+                            ? '-'
+                            : _selectedTime!.format(context),
+                      }).whenComplete(() => Navigator.of(context).pop());
                     },
                     icon: const Icon(
                       Icons.data_saver_on_sharp,
@@ -204,6 +201,40 @@ class _NewNoteState extends State<NewNote> {
             ],
           )
         ]),
+      ),
+    );
+  }
+
+  Widget ch(String tx, IconData ic) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          type = tx;
+        });
+      },
+      child: Chip(
+        backgroundColor: kWhiteColor,
+        label: Row(
+          children: [
+            Icon(
+              ic,
+              size: 15,
+            ),
+            Text(tx),
+          ],
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              width: 3,
+              color: type == tx ? kLightBlackColor : Colors.transparent,
+            )),
+        labelPadding: const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
+        labelStyle: const TextStyle(
+          color: kBlackColor,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

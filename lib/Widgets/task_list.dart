@@ -28,30 +28,29 @@ class _TaskListState extends State<TaskList> {
         ic = Icons.work;
     }
 
-    bool? val = false;
 
     return SizedBox(
       width: _w,
       child: Row(
         children: [
-          Theme(
-              data: ThemeData(
-                  primarySwatch: Colors.blue,
-                  unselectedWidgetColor: kLightBlackColor),
-              child: Transform.scale(
-                  child: Checkbox(
-                    activeColor: kWhiteColor,
-                    checkColor: kLightBlackColor,
-                    value: val,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    onChanged: (bool? value) {
-                      setState(() {
-                        val = value;
-                      });
-                    },
-                  ),
-                  scale: 1.2)),
+          // Theme(
+          //     data: ThemeData(
+          //         primarySwatch: Colors.blue,
+          //         unselectedWidgetColor: kLightBlackColor),
+          //     child: Transform.scale(
+          //         child: Checkbox(
+          //           activeColor: kWhiteColor,
+          //           checkColor: kLightBlackColor,
+          //           value: val,
+          //           shape: RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.circular(5)),
+          //           onChanged: (bool? value) {
+          //             setState(() {
+          //               val = value;
+          //             });
+          //           },
+          //         ),
+          //         scale: 1.2)),
           Expanded(
               child: SizedBox(
             height: 75,

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '/Widgets/new_note.dart';
-import '/Widgets/type_chip.dart';
 import '/Widgets/bottom_fields.dart';
-import '/Widgets/sheet_button.dart';
 import '/constrains/themes.dart';
 
 // ignore: must_be_immutable
@@ -25,13 +23,14 @@ class _EditNoteState extends State<EditNote> {
 
   TextEditingController _title = TextEditingController();
   TextEditingController _discription = TextEditingController();
-  String type = '';
+  String? type;
 
   @override
   void initState() {
     _title = TextEditingController(text: widget.docToEdit!['title']);
     _discription =
         TextEditingController(text: widget.docToEdit!['discription']);
+    type = widget.dataa!['type'];
     super.initState();
   }
 
@@ -91,16 +90,14 @@ class _EditNoteState extends State<EditNote> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    TypeChip(
-                      tx: 'personal',
-                      ic: Icons.info,
-                      type: type,
+                    ch(
+                      'personal',
+                      Icons.info,
                     ),
                     const SizedBox(width: 10),
-                    TypeChip(
-                      tx: 'Work',
-                      ic: Icons.work,
-                      type: type,
+                    ch(
+                      'Work',
+                      Icons.work,
                     ),
                   ],
                 ),
@@ -116,50 +113,134 @@ class _EditNoteState extends State<EditNote> {
               const SizedBox(
                 height: 5,
               ),
+              //  'Chosen date: ${widget.dataa!['redate'] ?? '-'} and time: ${widget.dataa!['retime'] ?? '-'}'
               Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Chosen date: ${widget.dataa!['redate'] ?? '-'} and time ${widget.dataa!['retime'] ?? '-'}',
-                    style: const TextStyle(color: kWhiteColor),
-                  )),
-              const Spacer(),
-              Center(
-                child: button(
-                  'Save',
-                  Icons.data_saver_on_sharp,
-                  kBlackColor,
-                  () {
-                    if (_title.text.isNotEmpty &&
-                        _discription.text.isNotEmpty) {
-                      widget.docToEdit!.reference
-                          .update({
-                            'title': _title.text,
-                            'discription': _discription.text,
-                          })
-                          .whenComplete(() => Navigator.of(context).pop())
-                          .whenComplete(
-                            () => Get.snackbar(
-                              'Edited successfully',
-                              '',
-                              icon: const Icon(Icons.edit, color: kWhiteColor),
-                              backgroundColor:
-                                  kLightBlackColor.withOpacity(0.3),
-                              animationDuration:
-                                  const Duration(milliseconds: 600),
-                              colorText: kWhiteColor,
-                              snackPosition: SnackPosition.BOTTOM,
-                            ),
-                          );
-                    } else {
-                      return null;
-                    }
-                  },
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: kWhiteColor,
+                      fontFamily: 'DNF',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    children: [
+                      const TextSpan(text: 'chosen date: '),
+                      TextSpan(
+                          text: widget.dataa!['redate'] ?? '-',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
+                      const TextSpan(text: ' and time: '),
+                      TextSpan(
+                          text: widget.dataa!['retime'] ?? '-',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ],
+                  ),
                 ),
+              ),
+              const SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all(kWhiteColor),
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.black45)),
+                    onPressed: () {
+                      if (_title.text.isNotEmpty &&
+                          _discription.text.isNotEmpty) {
+                        widget.docToEdit!.reference
+                            .update({
+                              'title': _title.text,
+                              'discription': _discription.text,
+                              'type': type,
+                            })
+                            .whenComplete(() => Navigator.of(context).pop())
+                            .whenComplete(
+                              () => Get.snackbar(
+                                'Edited successfully',
+                                '',
+                                icon:
+                                    const Icon(Icons.edit, color: kWhiteColor),
+                                backgroundColor:
+                                    kLightBlackColor.withOpacity(0.3),
+                                animationDuration:
+                                    const Duration(milliseconds: 600),
+                                colorText: kWhiteColor,
+                                snackPosition: SnackPosition.BOTTOM,
+                              ),
+                            );
+                      } else {
+                        return;
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.data_saver_on_sharp,
+                      color: kBlackColor,
+                    ),
+                    label: const Text(
+                      'save',
+                      style: TextStyle(color: kBlackColor),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                ],
               ),
             ],
           ),
         ),
       ]),
+    );
+  }
+
+
+  Widget ch(String tx, IconData ic) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          type = tx;
+        });
+      },
+      child: Chip(
+        backgroundColor: kBlackColor,
+        label: Row(
+          children: [
+            Icon(
+              ic,
+              color: kWhiteColor,
+              size: 15,
+            ),
+            Text(
+              tx,
+              style: const TextStyle(color: kWhiteColor),
+            ),
+          ],
+        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(
+              width: 3,
+              color: type == tx ? kLightBlackColor : kBlackColor,
+            )),
+        labelPadding: const EdgeInsets.symmetric(vertical: 3.8, horizontal: 17),
+        labelStyle: const TextStyle(
+          color: kBlackColor,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
