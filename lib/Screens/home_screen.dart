@@ -105,30 +105,107 @@ class _HomeScreenState extends State<HomeScreen> {
                                 duration: const Duration(milliseconds: 900),
                                 curve: Curves.fastLinearToSlowEaseIn,
                                 child: FadeInAnimation(
-                                    child: OpenContainer(
-                                        openColor: kLightBlackColor,
-                                        middleColor: kLightBlackColor,
-                                        closedShape:
-                                            const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                        ),
-                                        openShape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(30)),
-                                        ),
-                                        closedColor: kBlackColor,
-                                        closedElevation: 0,
-                                        openElevation: 0,
-                                        transitionDuration:
-                                            const Duration(milliseconds: 700),
-                                        closedBuilder: (context, _) => TaskList(
-                                              data: data,
-                                            ),
-                                        openBuilder: (ctx, _) => EditNote(
-                                              docToEdit: snapshot.data!.docs[i],
-                                              dataa: data,
-                                            ))),
+                                    child: Dismissible(
+                                  confirmDismiss: (diw) async {
+                                    return Get.defaultDialog(
+                                      title: 'confirm',
+                                      content: const Text(
+                                        'are you sure you wish to delete this note?',
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            style: ButtonStyle(
+                                                overlayColor:
+                                                    MaterialStateProperty.all(
+                                                        kLightBlackColor
+                                                            .withOpacity(0.3))),
+                                            onPressed: () {
+                                              Navigator.of(context).pop(false);
+                                            },
+                                            child: const Text(
+                                              'no',
+                                              style: TextStyle(
+                                                  color: kLightBlackColor),
+                                            )),
+                                        TextButton(
+                                            style: ButtonStyle(
+                                                overlayColor:
+                                                    MaterialStateProperty.all(
+                                                        kLightBlackColor
+                                                            .withOpacity(0.3))),
+                                            onPressed: () {
+                                              Navigator.of(context).pop(true);
+                                            },
+                                            child: const Text(
+                                              'yes',
+                                              style:
+                                                  TextStyle(color: kBlackColor),
+                                            ))
+                                      ],
+                                    );
+                                    // Get.defaultDialog(
+                                    //   confirm: const Text('yes'),
+                                    //   confirmTextColor: kWhiteColor,
+                                    //   onConfirm: () {
+                                    //     Navigator.of(context).pop(true);
+                                    //   },
+                                    //   cancelTextColor:
+                                    //       kWhiteColor.withOpacity(0.5),
+                                    //   cancel: const Text('no'),
+                                    //   onCancel: () {
+                                    //     Navigator.of(context).pop(false);
+                                    //   },
+                                    //   backgroundColor: kBlackColor,
+                                    //   title: 'Confirm?',
+                                    //   content: const Text(
+                                    //       'are you sure you wish to delete this note?',
+                                    //       style: TextStyle(color: kWhiteColor)),
+                                    // );
+                                  },
+                                  onDismissed: (d) async {
+                                    await snapshot.data!.docs[i].reference
+                                        .delete()
+                                        .whenComplete(
+                                          () => Get.snackbar(
+                                            'Deleted successfully',
+                                            '',
+                                            icon: const Icon(Icons.delete,
+                                                color: Colors.red),
+                                            backgroundColor: kLightBlackColor
+                                                .withOpacity(0.3),
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            colorText: kWhiteColor,
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          ),
+                                        );
+                                  },
+                                  direction: DismissDirection.endToStart,
+                                  key: ValueKey(snapshot.data!.docs[i]),
+                                  child: OpenContainer(
+                                      openColor: kLightBlackColor,
+                                      middleColor: kLightBlackColor,
+                                      closedShape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                      ),
+                                      openShape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                      ),
+                                      closedColor: kBlackColor,
+                                      closedElevation: 0,
+                                      openElevation: 0,
+                                      transitionDuration:
+                                          const Duration(milliseconds: 700),
+                                      closedBuilder: (context, _) => TaskList(
+                                            data: data,
+                                          ),
+                                      openBuilder: (ctx, _) => EditNote(
+                                            docToEdit: snapshot.data!.docs[i],
+                                            dataa: data,
+                                          )),
+                                )),
                               ),
                             );
                           },
