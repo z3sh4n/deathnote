@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,21 +47,44 @@ class _EditNoteState extends State<EditNote> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                widget.docToEdit!.reference
-                    .delete()
-                    .whenComplete(() => Navigator.of(context).pop())
-                    .whenComplete(
-                      () => Get.snackbar(
-                        'Deleted successfully',
-                        '',
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        backgroundColor: kLightBlackColor.withOpacity(0.3),
-                        animationDuration: const Duration(milliseconds: 600),
-                        colorText: kWhiteColor,
-                        snackPosition: SnackPosition.BOTTOM,
-                      ),
-                    );
+              onPressed: () async {
+                var con = await (Connectivity().checkConnectivity());
+                if (con == ConnectivityResult.none) {
+                  return Get.defaultDialog(
+                    title: 'alert!!!',
+                    content: const Text(
+                      'You dont have internet connection to delete this note',
+                    ),
+                    actions: [
+                      TextButton(
+                          style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(
+                                  kLightBlackColor.withOpacity(0.3))),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: const Text(
+                            'ok',
+                            style: TextStyle(color: kLightBlackColor),
+                          )),
+                    ],
+                  );
+                } else {
+                  return widget.docToEdit!.reference
+                      .delete()
+                      .whenComplete(() => Navigator.of(context).pop())
+                      .whenComplete(
+                        () => Get.snackbar(
+                          'Deleted successfully',
+                          '',
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          backgroundColor: kLightBlackColor.withOpacity(0.3),
+                          animationDuration: const Duration(milliseconds: 600),
+                          colorText: kWhiteColor,
+                          snackPosition: SnackPosition.BOTTOM,
+                        ),
+                      );
+                }
               },
               icon: Icon(
                 Icons.delete,
@@ -204,7 +228,6 @@ class _EditNoteState extends State<EditNote> {
       ]),
     );
   }
-
 
   Widget ch(String tx, IconData ic) {
     return InkWell(

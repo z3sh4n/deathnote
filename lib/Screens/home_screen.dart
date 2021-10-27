@@ -7,7 +7,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '/constrains/themes.dart';
-import '/Screens/404_error_screen.dart';
 import '/Screens/edit_note_screen.dart';
 import '/Widgets/drawer.dart';
 import '/Widgets/new_note.dart';
@@ -36,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void checkconnect() async {
     var con = await (Connectivity().checkConnectivity());
     if (con == ConnectivityResult.none) {
-      Get.offAll(() => const ErrorScreen());
     } else {
       return;
     }
@@ -97,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemBuilder: (ctx, i) {
                             Map<String, dynamic>? data = snapshot.data!.docs[i]
                                 .data() as Map<String, dynamic>?;
-                            checkconnect();
+                            // checkconnect();
                             return AnimationConfiguration.staggeredList(
                               position: i,
                               duration: const Duration(milliseconds: 500),
@@ -107,42 +105,74 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: FadeInAnimation(
                                     child: Dismissible(
                                   confirmDismiss: (diw) async {
-                                    return Get.defaultDialog(
-                                      title: 'confirm',
-                                      content: const Text(
-                                        'are you sure you wish to delete this note?',
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                            style: ButtonStyle(
-                                                overlayColor:
-                                                    MaterialStateProperty.all(
-                                                        kLightBlackColor
-                                                            .withOpacity(0.3))),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(false);
-                                            },
-                                            child: const Text(
-                                              'no',
-                                              style: TextStyle(
-                                                  color: kLightBlackColor),
-                                            )),
-                                        TextButton(
-                                            style: ButtonStyle(
-                                                overlayColor:
-                                                    MaterialStateProperty.all(
-                                                        kLightBlackColor
-                                                            .withOpacity(0.3))),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(true);
-                                            },
-                                            child: const Text(
-                                              'yes',
-                                              style:
-                                                  TextStyle(color: kBlackColor),
-                                            ))
-                                      ],
-                                    );
+                                    var con = await (Connectivity()
+                                        .checkConnectivity());
+                                    if (con == ConnectivityResult.none) {
+                                      return Get.defaultDialog(
+                                        title: 'alert!!!',
+                                        content: const Text(
+                                          'You dont have internet connection to delete this note',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  overlayColor:
+                                                      MaterialStateProperty.all(
+                                                          kLightBlackColor
+                                                              .withOpacity(
+                                                                  0.3))),
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(false);
+                                              },
+                                              child: const Text(
+                                                'ok',
+                                                style: TextStyle(
+                                                    color: kLightBlackColor),
+                                              )),
+                                        ],
+                                      );
+                                    } else {
+                                      return Get.defaultDialog(
+                                        title: 'confirm',
+                                        content: const Text(
+                                          'are you sure you wish to delete this note?',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  overlayColor:
+                                                      MaterialStateProperty.all(
+                                                          kLightBlackColor
+                                                              .withOpacity(
+                                                                  0.3))),
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(false);
+                                              },
+                                              child: const Text(
+                                                'no',
+                                                style: TextStyle(
+                                                    color: kLightBlackColor),
+                                              )),
+                                          TextButton(
+                                              style: ButtonStyle(
+                                                  overlayColor:
+                                                      MaterialStateProperty.all(
+                                                          kLightBlackColor
+                                                              .withOpacity(
+                                                                  0.3))),
+                                              onPressed: () {
+                                                Navigator.of(context).pop(true);
+                                              },
+                                              child: const Text(
+                                                'yes',
+                                                style: TextStyle(
+                                                    color: kBlackColor),
+                                              ))
+                                        ],
+                                      );
+                                    }
                                   },
                                   onDismissed: (d) async {
                                     await snapshot.data!.docs[i].reference
@@ -229,10 +259,3 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 }
-
-
-// flutter_native_splash:
-//   color:'#ffffff'
-//   image: assets/images/sdd.png
-//   android:true
-//   android_gravity: center
