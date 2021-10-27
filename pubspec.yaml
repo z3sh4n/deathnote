@@ -99,14 +99,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_icons:
-  image_path: "assets/images/sdd.png"
-  android: 'ic_launcher'
-  ios: true
-  adaptive_icon_background: "#ffffff"
-  # adaptive_icon_fground: "#000000"
+# flutter_icons:
+#   image_path: "assets/images/icn.png"
+#   android: 'ic_launcher'
+#   ios: true
+#   adaptive_icon_background: "#ffffff"
+
 flutter_native_splash:
   color: '#ffffff'
-  image: assets/images/sdd.png
+  color_dark: '#ffffff'
+  image: assets/images/sp2.png
   android: true
   android_gravity: center

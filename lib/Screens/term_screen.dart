@@ -1,12 +1,9 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:animations/animations.dart';
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '/constrains/themes.dart';
-import '404_error_screen.dart';
 import 'auth_screen.dart';
 
 class TermScreen extends StatefulWidget {
@@ -18,20 +15,20 @@ class TermScreen extends StatefulWidget {
 }
 
 class _TermScreenState extends State<TermScreen> {
-  @override
-  void initState() {
-    super.initState();
-    checkconnect();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkconnect();
+  // }
 
-  void checkconnect() async {
-    var con = await (Connectivity().checkConnectivity());
-    if (con == ConnectivityResult.none) {
-      Get.offAll(() => const ErrorScreen());
-    } else {
-      return;
-    }
-  }
+  // void checkconnect() async {
+  //   var con = await (Connectivity().checkConnectivity());
+  //   if (con == ConnectivityResult.none) {
+  //     Get.offAll(() => const ErrorScreen());
+  //   } else {
+  //     return;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
